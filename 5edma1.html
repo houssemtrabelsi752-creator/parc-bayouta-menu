@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Parc Bayouta | Digital Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A3614; /* Deep Forest Green */
+            --accent: #D4AF37;  /* Gold */
+            --bg-light: #F9F8F5; /* Warm Cream */
+            --text-main: #1C1C1C;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
+        }
+
+        h1, h2, h3, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Hero Parallax */
+        .hero-banner {
+            background: linear-gradient(to bottom, rgba(26, 54, 20, 0.4), rgba(26, 54, 20, 0.9)), url('5edma.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 45vh;
+            min-height: 350px;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Sticky Category Nav */
+        .category-nav {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            scroll-behavior: smooth;
+        }
+        .category-nav::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .cat-btn {
+            white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cat-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 54, 20, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Item Cards */
+        .item-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+        }
+        .item-card:active {
+            transform: scale(0.98);
+        }
+        @media (min-width: 1024px) {
+            .item-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            }
+        }
+
+        /* Image Placeholder / Loader */
+        .img-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .img-container img {
+            transition: transform 0.7s ease;
+        }
+        .item-card:hover .img-container img {
+            transform: scale(1.08);
+        }
+
+        /* Page Transitions */
+        #home-page, #menu-page {
+            transition: opacity 0.4s ease;
+        }
+
+        .price-badge {
+            background: var(--bg-light);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#1A3614] selection:text-white">
+
+    <!-- HOME PAGE -->
+    <div id="home-page" class="w-full min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+        <!-- Background elements -->
+        <div class="absolute inset-0 z-0">
+            <img src="5edma.jpg" alt="Background" class="w-full h-full object-cover scale-105 filter blur-sm brightness-[0.3]">
+        </div>
+        
+        <div class="relative z-10 text-center px-6 max-w-3xl fade-in">
+            <div class="w-20 h-20 bg-white/10 backdrop-blur-md rounded-2xl mx-auto mb-8 flex items-center justify-center border border-white/20 rotate-3 shadow-2xl">
+                <span class="text-4xl text-white font-bold serif-font">B</span>
+            </div>
+            
+            <h5 class="text-[#D4AF37] tracking-[0.4em] uppercase text-xs font-bold mb-4">Maison de Tradition</h5>
+            <h1 class="text-6xl md:text-8xl text-white font-bold serif-font mb-6 drop-shadow-lg leading-tight">Parc Bayouta</h1>
+            
+            <p class="text-gray-300 text-lg md:text-xl font-light mb-12 max-w-lg mx-auto leading-relaxed">
+                Une expérience culinaire immersive au cœur de la nature. Découvrez nos saveurs authentiques.
+            </p>
+            
+            <button onclick="navigateTo('menu')" class="group relative inline-flex items-center justify-center px-10 py-5 bg-[#D4AF37] text-[#1A3614] rounded-full font-bold uppercase tracking-widest overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(212,175,55,0.4)]">
+                <span class="relative z-10 flex items-center gap-2">
+                    Ouvrir le Menu <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </span>
+                <div class="absolute inset-0 bg-white/30 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </button>
+        </div>
+
+        <div class="absolute bottom-8 z-10 text-white/50 text-xs uppercase tracking-widest text-center w-full">
+            El Khetmine, Bizerte
+        </div>
+    </div>
+
+    <!-- MENU PAGE -->
+    <div id="menu-page" class="hidden min-h-screen bg-[var(--bg-light)]">
+        
+        <!-- Header / Hero -->
+        <header class="hero-banner relative flex flex-col justify-end pb-12 px-6">
+            <!-- Back button overlay top left -->
+            <button onclick="navigateTo('home')" class="absolute top-6 left-6 z-20 w-12 h-12 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 hover:bg-black/50 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            </button>
+
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="w-10 h-px bg-[#D4AF37]"></span>
+                    <span class="text-[#D4AF37] text-xs font-bold uppercase tracking-widest">Menu Numérique</span>
+                </div>
+                <h2 class="text-5xl md:text-6xl text-white serif-font font-bold">À La Carte</h2>
+            </div>
+            
+            <!-- Bottom curve decoration -->
+            <div class="absolute -bottom-1 left-0 w-full overflow-hidden leading-none">
+                <svg class="block w-full h-[30px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,112.56,189.92,98.24,233.15,87.67,277.53,73.1,321.39,56.44Z" fill="#F9F8F5"></path>
+                </svg>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="max-w-4xl mx-auto pb-24">
+            
+            <!-- Categories Sticky Nav -->
+            <nav class="category-nav glass mx-4 lg:mx-0 -mt-6 rounded-2xl shadow-sm border border-gray-100 p-2 flex gap-2">
+                <button onclick="scrollToCat('pizzas', this)" class="cat-btn active px-6 py-2.5 rounded-xl text-sm font-semibold text-gray-600">Pizzas</button>
+                <button onclick="scrollToCat('plats', this)" class="cat-btn px-6 py-2.5 rounded-xl text-sm font-semibold text-gray-600">Plats</button>
+                <button onclick="scrollToCat('desserts', this)" class="cat-btn px-6 py-2.5 rounded-xl text-sm font-semibold text-gray-600">Desserts</button>
+                <button onclick="scrollToCat('boissons', this)" class="cat-btn px-6 py-2.5 rounded-xl text-sm font-semibold text-gray-600">Boissons</button>
+            </nav>
+
+            <div class="px-5 lg:px-0 mt-8 space-y-16">
+                
+                <!-- PIZZAS -->
+                <section id="pizzas" class="menu-section pt-4">
+                    <div class="flex items-center gap-4 mb-8">
+                        <h3 class="text-3xl text-[var(--primary)] serif-font font-bold">Pizzas Artisanal</h3>
+                        <div class="h-px bg-gray-300 flex-grow"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Item -->
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=800&auto=format&fit=crop" alt="Margherita" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <div class="flex justify-between items-start mb-1">
+                                    <h4 class="font-bold text-lg leading-tight">Margherita Bayouta</h4>
+                                </div>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Sauce tomate artisanale, fior di latte, basilic frais.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">12 DT</div>
+                            </div>
+                        </div>
+
+                        <!-- Item -->
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop" alt="Thon" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Thon Tradition</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Thon de Bizerte, mozzarella, câpres, olives.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">15 DT</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item -->
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800&auto=format&fit=crop" alt="4 Saisons" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Quatre Saisons</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Champignons, artichauts, jambon, olives fraîches.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">16 DT</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- PLATS -->
+                <section id="plats" class="menu-section pt-4">
+                    <div class="flex items-center gap-4 mb-8">
+                        <h3 class="text-3xl text-[var(--primary)] serif-font font-bold">Plats & Ma9rouna</h3>
+                        <div class="h-px bg-gray-300 flex-grow"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Featured Large Item -->
+                        <div class="item-card rounded-3xl md:col-span-2 overflow-hidden border border-gray-100 shadow-sm relative h-64 md:h-80 group">
+                            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200&auto=format&fit=crop" alt="Koucha" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                            
+                            <div class="absolute bottom-0 left-0 w-full p-6 text-white">
+                                <div class="inline-block bg-[#D4AF37] text-[#1A3614] text-[10px] uppercase font-black tracking-widest px-3 py-1 rounded-md mb-2">Signature</div>
+                                <div class="flex justify-between items-end">
+                                    <div>
+                                        <h4 class="font-bold serif-font text-3xl mb-1">Koucha Allouche</h4>
+                                        <p class="text-gray-200 text-sm max-w-sm">Agneau local cuit lentement, parfumé au romarin sauvage et pommes de terre dorées.</p>
+                                    </div>
+                                    <div class="text-2xl font-bold">28 DT</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item -->
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?q=80&w=800&auto=format&fit=crop" alt="Ma9rouna" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Ma9rouna Fel</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Recette traditionnelle bizerte pimentée à l'agneau.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">18 DT</div>
+                            </div>
+                        </div>
+
+                        <!-- Item -->
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?q=80&w=800&auto=format&fit=crop" alt="Linguine" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Linguine Fruits Mer</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Crevettes, calamars, sauce à l'ail et persillade.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">24 DT</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- DESSERTS -->
+                <section id="desserts" class="menu-section pt-4">
+                    <div class="flex items-center gap-4 mb-8">
+                        <h3 class="text-3xl text-[var(--primary)] serif-font font-bold">Desserts</h3>
+                        <div class="h-px bg-gray-300 flex-grow"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?q=80&w=800&auto=format&fit=crop" alt="Crepe" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Crêpe Nutella Banane</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Chocolat fondant, bananes fraîches et noisettes.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">10 DT</div>
+                            </div>
+                        </div>
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=800&auto=format&fit=crop" alt="Fruits" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Assiette de Fruits</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Fruits de saison finement coupés.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">12 DT</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                 <!-- BOISSONS -->
+                 <section id="boissons" class="menu-section pt-4">
+                    <div class="flex items-center gap-4 mb-8">
+                        <h3 class="text-3xl text-[var(--primary)] serif-font font-bold">Boissons</h3>
+                        <div class="h-px bg-gray-300 flex-grow"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop" alt="Citronnade" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Citronnade Fraîche</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Citrons pressés à froid avec une touche de sucre.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">5 DT</div>
+                            </div>
+                        </div>
+
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1553530666-ba11a90a3876?q=80&w=800&auto=format&fit=crop" alt="Fraise" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Jus de Fraise</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Jus onctueux aux fraises de saison.</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">7 DT</div>
+                            </div>
+                        </div>
+
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=800&auto=format&fit=crop" alt="Thé" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Thé à la Menthe</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Thé vert, menthe fraîche. Pignons (+2 DT).</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">3 DT</div>
+                            </div>
+                        </div>
+
+                        <div class="item-card rounded-3xl p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <div class="w-28 h-28 shrink-0 rounded-2xl img-container bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=800&auto=format&fit=crop" alt="Soda" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex flex-col justify-center flex-grow py-1 pr-2">
+                                <h4 class="font-bold text-lg leading-tight mb-1">Sodas</h4>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Coca-Cola, Fanta, Sprite...</p>
+                                <div class="price-badge self-start px-3 py-1 rounded-lg text-sm">3.5 DT</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="pt-10 text-center text-gray-400 text-sm">
+                    <p>Tous nos plats sont préparés à la commande.</p>
+                    <p class="mt-1">Merci de patienter pour vous offrir le meilleur de la nature.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PWA Bottom Spacer for Mobile -->
+    <div class="h-10 w-full block bg-[var(--bg-light)]" id="bottom-spacer" style="display:none;"></div>
+
+    <script>
+        // Router Logic
+        function navigateTo(pageId) {
+            const home = document.getElementById('home-page');
+            const menu = document.getElementById('menu-page');
+            const spacer = document.getElementById('bottom-spacer');
+            
+            if (pageId === 'menu') {
+                home.style.opacity = '0';
+                setTimeout(() => {
+                    home.classList.add('hidden');
+                    menu.classList.remove('hidden');
+                    spacer.style.display = 'block';
+                    // Trigger reflow
+                    void menu.offsetWidth;
+                    menu.classList.add('fade-in');
+                    window.scrollTo(0, 0);
+                    window.location.hash = 'menu';
+                }, 400);
+            } else {
+                menu.classList.remove('fade-in');
+                menu.style.opacity = '0';
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                    spacer.style.display = 'none';
+                    home.classList.remove('hidden');
+                    home.style.opacity = '1';
+                    window.location.hash = '';
+                    // Reset menu opacity for next time
+                    menu.style.opacity = '1';
+                }, 400);
+            }
+        }
+
+        // On Load Check URL Hash
+        window.onload = () => {
+            if (window.location.hash === '#menu') {
+                navigateTo('menu');
+            }
+        };
+
+        // Smooth Scroll + Active Nav
+        function scrollToCat(id, btn) {
+            const element = document.getElementById(id);
+            if(element) {
+                // Account for sticky header height
+                const y = element.getBoundingClientRect().top + window.scrollY - 100;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
+            setActiveBtn(btn);
+        }
+
+        function setActiveBtn(btnActive) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-[var(--primary)]', 'text-white', 'shadow-md');
+                btn.classList.add('text-gray-600');
+            });
+            btnActive.classList.add('active');
+            btnActive.classList.remove('text-gray-600');
+            // Scroll the nav container so button is visible on mobile
+            btnActive.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+
+        // Intersection Observer for highlighting sections on scroll
+        const observeSections = () => {
+            const sections = document.querySelectorAll('.menu-section');
+            const navButtons = document.querySelectorAll('.cat-btn');
+
+            const observer = new IntersectionObserver((entries) => {
+                let activeId = null;
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+                        activeId = entry.target.id;
+                    }
+                });
+
+                if(activeId) {
+                    navButtons.forEach(btn => {
+                        const onclickStr = btn.getAttribute('onclick');
+                        if(onclickStr.includes(activeId)) {
+                            setActiveBtn(btn);
+                        }
+                    });
+                }
+            }, { 
+                rootMargin: '-100px 0px -60% 0px',
+                threshold: [0.2, 0.5] 
+            });
+
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Init observer after a short delay to easily hook into DOM after page transitions
+        setTimeout(observeSections, 1000);
+    </script>
+</body>
+</html>
